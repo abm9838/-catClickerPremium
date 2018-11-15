@@ -8,8 +8,8 @@ body{
 .content{
     display:flex;
     flex-flow: row;
-    border: 1px solid #b3f082;
-    padding: 10px;
+    border: 0px solid #b3f082;
+    padding: 1px 5px 1px 5px;
     height:auto;
     width:80%;
     max-width: 1000px;
@@ -20,9 +20,11 @@ body{
 
 }
 img{
-    height:400px;
-    width:90%;
-    max-width: 720px;; 
+    height:250px;
+    width:60%;
+    max-width: 480px;
+    border-radius: 5px;
+    border: 0px solid rgb(236, 140, 14);
 }
 h2{
     color:white;
@@ -34,9 +36,32 @@ p{
 
 .catName{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5em;
+    font-size: 1.3em;
+    color: aliceblue;
     border: 1px solid #b67f0a;
     border-radius: 7px;
-    padding:3px;
+    padding:0px 3px 0px 3px;
     width: auto;
+}
+
+label{
+    color: antiquewhite;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2em;
+
+}
+#admin-panel{
+    display: block;
+    background-color: #b8daa157;
+    padding: 8px;
+    width: 80%;
+    max-width: 420px;
+    border-radius: 5px;
+}
+button,input{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2em;
+    border:1px solid #b67f0a;
+    border-radius: 3px;
+    margin: 2px;
 }

@@ -1,61 +1,149 @@
+//  Octopus model
 
-// js for 5 cat clicker
+var model = {
+    currentCat : null,
+    cats : [
+        {
+            clickCount : 0,
+            name : 'Cat1',
+            imgSrc : 'img/cat1.jpg'
+        },
+        {
+            clickCount : 0,
+            name : 'Cat2',
+            imgSrc : 'img/cat2.jpg'
+        },
+        {
+            clickCount : 0,
+            name : 'Cat3',
+            imgSrc : 'img/cat3.jpg'
+        },
+        {
+            clickCount : 0,
+            name : 'Cat4',
+            imgSrc : 'img/cat4.jpg'
+        },
+        {
+            clickCount : 0,
+            name : 'Cat5',
+            imgSrc : 'img/cat5.jpg'
+        }
+    ]
+};
 
-document.body.innerHTML='';
-document.body.style.background = "#262924";
+var octopus = {
+    init : function(){
+        model.currentCat = model.cats[0];
+        catListView.init();
+        catView.init();
+    },
+    getCurrentCat : function(){
+        return model.currentCat;
+    },
+    getCats : function(){
+        return model.cats;
+    },
+    setCurrentCat : function(cat){
+        model.currentCat = cat;
+    },
+    incrementCatCount : function(){
+        model.currentCat.clickCount++;
+        catView.render();
+    },
+    updateCat : function(name,src,count){
+        model.currentCat.name=name;
+        model.currentCat.imgSrc=src;
+        model.currentCat.clickCount=count;
+        catView.x='none';
+        catListView.render();
+        catView.render();
+    }
+};
 
-var nums = ['cat1','cat2','cat3','cat4','cat5'];
-var catList = document.createElement('div');
-catList.setAttribute('class','content');
 
+var catView = {
+    init : function(){
+        this.catSpace = document.getElementsByClassName('cat-space')[0];
+        this.catNameSpace = document.getElementById('catNameSpace');
+        this.catImgSpace = document.getElementById('catImgSpace');
+        this.catCountSpace = document.getElementById('catCountSpace');
+        this.adminPanel = document.getElementById('admin-panel');
+        this.adminButton = document.getElementById('admin-button');
+        this.cancelButton = document.getElementById('cancel');
+        this.submitButton = document.getElementById('submit');
+        this.inputCatName = document.getElementById('input-cat-name');
+        this.inputCatLink = document.getElementById('input-cat-link');
+        this.inputCatCount = document.getElementById('input-cat-count');
+        this.x = 'none'
+        // increment counter on click
+        this.catImgSpace.addEventListener('click',function(){
+            octopus.incrementCatCount();
+        });
+        //event listener on admin button
+        this.adminButton.addEventListener('click',function(){
+            catView.x='block';
+            catView.inputCatName.value = model.currentCat.name;
+            catView.inputCatLink.value = model.currentCat.imgSrc;
+            catView.inputCatCount.value = model.currentCat.clickCount;
+            catView.render();
+            
+        });
+        this.cancelButton.addEventListener('click',function(event){
+            catView.x='none';
+            catView.render();
+            event.preventDefault();
+        })
+        this.submitButton.addEventListener('click',function(event){
+            octopus.updateCat(catView.inputCatName.value, catView.inputCatLink.value, catView.inputCatCount.value);
+            console.log(catView.inputCatName.value);
+            event.preventDefault();
+        })
+        this.render();
+    }, 
+   render : function(){
+       //update DOM element value from the currentCat 
+       var currentCat = octopus.getCurrentCat();
+       this.catCountSpace.textContent = currentCat.clickCount;
+       this.catNameSpace.textContent = currentCat.name;
+       this.catImgSpace.src = currentCat.imgSrc;
+       this.adminPanel.style.display=this.x;
 
-for(var i=0; i<nums.length ; i++){
-    var num = nums[i];
+   }
+};
 
-    var elem = document.createElement('div');
-    elem.setAttribute('class','catName');
-    elem.textContent = num;
-    elem.style.color="white";
-    elem.addEventListener('click',(function(numCopy){
-        return function(){
-            draw(numCopy);
-        };
-    })(num));
+var catListView = {
+   init : function(){
+       this.catListSpace = document.getElementsByClassName('content')[0];
+       this.render();
+   },
+   render : function(){
+       var cat,elem,i;
+       // getsCats from octopus 
+       // it will give the list of all cats
+       var cats = octopus.getCats();
+       // empty the catlistSpace 
+       this.catListSpace.innerHTML = '';
+       for(i=0; i<cats.length;i++){
+           cat = cats[i];
+           elem = document.createElement('div');
+           elem.setAttribute('class','catName');
+           elem.textContent = cat.name;
+           
+           //add eventlistener for this using imidiate-invoke-closure
+           //
+           elem.addEventListener('click',(function(catCopy){
+               return function(){
+                   // set this cat as currentCat into octopus
+                   octopus.setCurrentCat(catCopy);
+                   catView.render();
+               };
+           })(cat));
 
-    catList.appendChild(elem);
-}
+           //add element to space 
+           this.catListSpace.appendChild(elem);
+       }
+   } 
+};
 
-document.body.appendChild(catList);
-var clickCount = [0,0,0,0,0]; 
-var catSrc = ['cat1.jpg','cat2.jpg','cat3.jpg','cat4.jpg','cat5.jpg'];
-var display = document.createElement('div');
-display.setAttribute('class','catSpace');
- var catName = document.createAttribute('h2');
- var catImg = document.createAttribute('img');
- var catClick = document.createAttribute('p');
- document.body.appendChild(display);
- 
-
-function draw(cat){
-    display.innerHTML="<h2>"+cat+"</h2><img class=\""+cat+ "\" src=\"img/"+cat+".jpg\" alt=\"cat1\"><p> Clicks : <span class=\"count\">"+clickCount[cat[3]-1]+"</span></p>";
-    var image = document.getElementsByTagName('img');
-    console.log(image);
-    image[0].addEventListener('click',(function(count){
-        
-        return function(){
-            clickCount[count]+=1;    
-            var cVal = document.getElementsByClassName('count');
-            cVal[0].innerHTML=clickCount[count];
-            //console.log(cVal);
-        };
-    })(cat[3]-1));
-
-}
-/*
-
-elem.addEventListener('click',(function(numCopy){
-        return function(){
-            draw(numCopy);
-        };
-    })(num));
-*/
+// Run code
+octopus.init();

@@ -13,18 +13,24 @@
 <body align="center">
 
     <div class="content">
-        <div class="cat1-space">
-
-            <h2>Cat1</h2>
-            <img id="cat1" src="img/cat1.jpg" alt="cat1-img">
-
-            <p>Clicks : <span class="click1">0</span></p>
+       
+    </div>
+        <div class="cat-space">
+            <h2 id="catNameSpace"></h2>
+            <img id="catImgSpace" src="" alt="cat-img">
+            <p>Clicks : <span id="catCountSpace"></span></p>
         </div>
-        <div class="cat2-space">
-            <h2>Cat2</h2>
-            <img id="cat2" src="img/cat2.jpg" alt="cat2-img">
-            <p>Clicks : <span class="click2">0</span></p>
-        </div>
+    
+    <button id="admin-button">Admin</button>
+    
+    <div id="admin-panel" >
+        <form action="">
+            <label for="input-cat-name"> Cat Name </label><input type="text"  id="input-cat-name" name="catName" value=""><br>
+            <label for="input-cat-link"> Cat Link &nbsp;&nbsp;</label><input type="text"  id="input-cat-link" name="catLink" value=""><br>
+            <label for="input-cat-count">Cat Count </label><input type="number" id="input-cat-count" name="catCount" value=""><br>
+            <input id='cancel' type="submit" value="Cancel">
+            <input id='submit' type="submit" value="Submit">
+        </form>
     </div>
 
     <script src="js/app.js"></script>
